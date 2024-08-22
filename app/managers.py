@@ -4,24 +4,27 @@ from app.models import Actor
 
 
 class ActorManager:
-    def __init__(self):
-        self.table_name = 'actors'
-        self._connection = sqlite3.connect('../cinema.sqlite')
+    def __init__(self) -> None:
+        self.table_name = "actors"
+        self._connection = sqlite3.connect("../cinema.sqlite")
 
-    def all(self):
-        all_lines = self._connection.execute(f"SELECT * FROM {self.table_name}")
+    def all(self) -> list[Actor]:
+        all_lines = self._connection.execute(
+            f"SELECT * FROM {self.table_name}"
+        )
         return [Actor(*line) for line in all_lines]
 
-    def create(self, **kwvalues):
-        columns = ', '.join(kwvalues.keys())
-        placeholders = ', '.join([f":{key}" for key in kwvalues.keys()])
+    def create(self, **kwvalues) -> None:
+        columns = ", ".join(kwvalues.keys())
+        placeholders = ", ".join([f":{key}" for key in kwvalues.keys()])
         self._connection.execute(
-            f"INSERT INTO {self.table_name} ({columns}) VALUES ({placeholders})",
+            f"INSERT INTO {self.table_name} ({columns}) "
+            f"VALUES ({placeholders})",
             kwvalues
         )
         self._connection.commit()
 
-    def update(self, id: int, new_first_name: str, new_last_name: str):
+    def update(self, id: int, new_first_name: str, new_last_name: str) -> None:
         self._connection.execute(
             f"UPDATE {self.table_name} "
             "SET  first_name = ?,"
@@ -31,15 +34,10 @@ class ActorManager:
         )
         self._connection.commit()
 
-    def delete(self, id: int):
+    def delete(self, id: int) -> None:
         self._connection.execute(
             f"DELETE FROM {self.table_name} "
             f"WHERE id = ?",
             (id,)
         )
         self._connection.commit()
-
-
-if __name__ == '__main__':
-    pass
-
