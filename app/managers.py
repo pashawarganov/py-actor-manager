@@ -18,7 +18,6 @@ class ActorManager:
         return [Actor(*line) for line in all_lines]
 
     def create(self, **kwvalues) -> None:
-        columns = ", ".join(kwvalues.keys())
         self._connection.execute(
             f"""
                 INSERT INTO {self.table_name} (first_name, last_name)
