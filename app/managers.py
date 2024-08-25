@@ -21,7 +21,7 @@ class ActorManager:
         columns = ", ".join(kwvalues.keys())
         self._connection.execute(
             f"""
-                INSERT INTO {self.table_name} ({columns})
+                INSERT INTO {self.table_name} (first_name, last_name)
                 VALUES (?, ?)
             """,
             tuple(kwvalues.values())
